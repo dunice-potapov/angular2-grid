@@ -305,6 +305,76 @@ var NgGrid = (function () {
     NgGrid.prototype.triggerCascade = function () {
         this._cascadeGrid(null, null, false);
     };
+    NgGrid.prototype._onResize = function (e) {
+        this._calculateColWidth();
+        this._calculateRowHeight();
+        this._updateRatio();
+        for (var _i = 0, _a = this._items; _i < _a.length; _i++) {
+            var item = _a[_i];
+            this._removeFromGrid(item);
+        }
+        this._updateLimit();
+        for (var _b = 0, _c = this._items; _b < _c.length; _b++) {
+            var item = _c[_b];
+            this._addToGrid(item);
+            item.recalculateSelf();
+        }
+        this._updateSize();
+    };
+    NgGrid.prototype._onMouseDown = function (e) {
+        var mousePos = this._getMousePosition(e);
+        var item = this._getItemFromPosition(mousePos);
+        if (item != null) {
+            if (this.resizeEnable && item.canResize(e)) {
+                this._resizeReady = true;
+            }
+            else if (this.dragEnable && item.canDrag(e)) {
+                this._dragReady = true;
+            }
+        }
+        return true;
+    };
+    NgGrid.prototype._onMouseUp = function (e) {
+        if (this.isDragging) {
+            this._dragStop(e);
+            return false;
+        }
+        else if (this.isResizing) {
+            this._resizeStop(e);
+            return false;
+        }
+        else if (this._dragReady || this._resizeReady) {
+            this._dragReady = false;
+            this._resizeReady = false;
+        }
+        return true;
+    };
+    NgGrid.prototype._onMouseMove = function (e) {
+        if (this._resizeReady) {
+            this._resizeStart(e);
+            return false;
+        }
+        else if (this._dragReady) {
+            this._dragStart(e);
+            return false;
+        }
+        if (this.isDragging) {
+            this._drag(e);
+            return false;
+        }
+        else if (this.isResizing) {
+            this._resize(e);
+            return false;
+        }
+        else {
+            var mousePos = this._getMousePosition(e);
+            var item = this._getItemFromPosition(mousePos);
+            if (item) {
+                item.onMouseMove(e);
+            }
+        }
+        return true;
+    };
     //	Private methods
     NgGrid.prototype._calculateColWidth = function () {
         if (this._autoResize) {
@@ -359,41 +429,12 @@ var NgGrid = (function () {
             this._limitGrid(this._getContainerColumns());
         }
     };
-    NgGrid.prototype._onResize = function (e) {
-        this._calculateColWidth();
-        this._calculateRowHeight();
-        this._updateRatio();
-        for (var _i = 0, _a = this._items; _i < _a.length; _i++) {
-            var item = _a[_i];
-            this._removeFromGrid(item);
-        }
-        this._updateLimit();
-        for (var _b = 0, _c = this._items; _b < _c.length; _b++) {
-            var item = _c[_b];
-            this._addToGrid(item);
-            item.recalculateSelf();
-        }
-        this._updateSize();
-    };
     NgGrid.prototype._applyChanges = function (changes) {
         var _this = this;
         changes.forEachAddedItem(function (record) { _this._config[record.key] = record.currentValue; });
         changes.forEachChangedItem(function (record) { _this._config[record.key] = record.currentValue; });
         changes.forEachRemovedItem(function (record) { delete _this._config[record.key]; });
         this.setConfig(this._config);
-    };
-    NgGrid.prototype._onMouseDown = function (e) {
-        var mousePos = this._getMousePosition(e);
-        var item = this._getItemFromPosition(mousePos);
-        if (item != null) {
-            if (this.resizeEnable && item.canResize(e)) {
-                this._resizeReady = true;
-            }
-            else if (this.dragEnable && item.canDrag(e)) {
-                this._dragReady = true;
-            }
-        }
-        return true;
     };
     NgGrid.prototype._resizeStart = function (e) {
         if (this.resizeEnable) {
@@ -435,32 +476,6 @@ var NgGrid = (function () {
     };
     NgGrid.prototype._resetZoom = function () {
         this._renderer.setElementStyle(this._ngEl.nativeElement, 'transform', '');
-    };
-    NgGrid.prototype._onMouseMove = function (e) {
-        if (this._resizeReady) {
-            this._resizeStart(e);
-            return false;
-        }
-        else if (this._dragReady) {
-            this._dragStart(e);
-            return false;
-        }
-        if (this.isDragging) {
-            this._drag(e);
-            return false;
-        }
-        else if (this.isResizing) {
-            this._resize(e);
-            return false;
-        }
-        else {
-            var mousePos = this._getMousePosition(e);
-            var item = this._getItemFromPosition(mousePos);
-            if (item) {
-                item.onMouseMove(e);
-            }
-        }
-        return true;
     };
     NgGrid.prototype._drag = function (e) {
         if (this.isDragging) {
@@ -557,21 +572,6 @@ var NgGrid = (function () {
             this.onResize.emit(this._resizingItem);
             this._resizingItem.onResizeEvent();
         }
-    };
-    NgGrid.prototype._onMouseUp = function (e) {
-        if (this.isDragging) {
-            this._dragStop(e);
-            return false;
-        }
-        else if (this.isResizing) {
-            this._resizeStop(e);
-            return false;
-        }
-        else if (this._dragReady || this._resizeReady) {
-            this._dragReady = false;
-            this._resizeReady = false;
-        }
-        return true;
     };
     NgGrid.prototype._dragStop = function (e) {
         if (this.isDragging) {
