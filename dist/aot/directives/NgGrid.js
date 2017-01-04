@@ -1130,13 +1130,13 @@ var NgGrid = (function () {
                 },] },
     ];
     /** @nocollapse */
-    NgGrid.ctorParameters = [
+    NgGrid.ctorParameters = function () { return [
         { type: core_1.KeyValueDiffers, },
         { type: core_1.ElementRef, },
         { type: core_1.Renderer, },
         { type: core_1.ComponentFactoryResolver, },
         { type: core_1.ViewContainerRef, },
-    ];
+    ]; };
     NgGrid.propDecorators = {
         'onDragStart': [{ type: core_1.Output },],
         'onDrag': [{ type: core_1.Output },],

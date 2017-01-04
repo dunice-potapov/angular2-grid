@@ -1,6 +1,7 @@
 typings
 npm-debug.log
 demo/**/*.js*
+dist/node_modules
 node_modules/
 bower_components/
 coverage/

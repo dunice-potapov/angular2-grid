@@ -500,13 +500,13 @@ var NgGridItem = (function () {
                 },] },
     ];
     /** @nocollapse */
-    NgGridItem.ctorParameters = [
+    NgGridItem.ctorParameters = function () { return [
         { type: core_1.KeyValueDiffers, },
         { type: core_1.ElementRef, },
         { type: core_1.Renderer, },
         { type: NgGrid_1.NgGrid, },
         { type: core_1.ViewContainerRef, },
-    ];
+    ]; };
     NgGridItem.propDecorators = {
         'onItemChange': [{ type: core_1.Output },],
         'onDragStart': [{ type: core_1.Output },],

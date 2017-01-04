@@ -109,10 +109,6 @@ gulp.task('build-aot', ['clean'], function() {
 	return gulp.start('css', 'ngc');
 });
 
-gulp.task('build-aot', ['clean'], function() {
-	return gulp.start('css', 'ngc');
-});
-
 gulp.task('rebuild', ['clean'], function() {
 	return gulp.start('build');
 });

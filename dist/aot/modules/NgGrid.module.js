@@ -12,7 +12,7 @@ var NgGridModule = (function () {
                 },] },
     ];
     /** @nocollapse */
-    NgGridModule.ctorParameters = [];
+    NgGridModule.ctorParameters = function () { return []; };
     return NgGridModule;
 }());
 exports.NgGridModule = NgGridModule;

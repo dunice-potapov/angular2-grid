@@ -83,10 +83,10 @@ var NgGridPlaceholder = (function () {
                 },] },
     ];
     /** @nocollapse */
-    NgGridPlaceholder.ctorParameters = [
+    NgGridPlaceholder.ctorParameters = function () { return [
         { type: core_1.ElementRef, },
         { type: core_1.Renderer, },
-    ];
+    ]; };
     return NgGridPlaceholder;
 }());
 exports.NgGridPlaceholder = NgGridPlaceholder;
