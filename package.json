@@ -2,8 +2,8 @@
   "name": "angular2-grid",
   "version": "0.11.2",
   "description": "A grid-based drag/drop/resize directive plugin for Angular 2",
-  "main": "./dist/aot/main",
-  "typings": "./dist/aot/main.d.ts",
+  "main": "dist/aot/main",
+  "typings": "dist/aot/main.d.ts",
   "scripts": {
     "start": "npm run lite",
     "lite": "lite-server -c bs-config.json",
@@ -39,12 +39,7 @@
   },
   "homepage": "https://github.com/BTMorton/angular2-grid",
   "files": [
-    "dist/NgGrid*",
-    "dist/main*",
-    "dist/components/*",
-    "dist/directives/*",
-    "dist/interfaces/*",
-    "dist/modules/*"
+    "dist/aot/*"
   ],
   "peerDependencies": {
     "@angular/core": "2.4.2"
