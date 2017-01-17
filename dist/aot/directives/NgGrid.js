@@ -440,15 +440,17 @@ var NgGrid = (function () {
         if (this.resizeEnable) {
             var mousePos = this._getMousePosition(e);
             var item = this._getItemFromPosition(mousePos);
-            item.startMoving();
-            this._resizingItem = item;
-            this._resizeDirection = item.canResize(e);
-            this._removeFromGrid(item);
-            this._createPlaceholder(item);
-            this.isResizing = true;
-            this._resizeReady = false;
-            this.onResizeStart.emit(item);
-            item.onResizeStartEvent();
+            if (item) {
+                item.startMoving();
+                this._resizingItem = item;
+                this._resizeDirection = item.canResize(e);
+                this._removeFromGrid(item);
+                this._createPlaceholder(item);
+                this.isResizing = true;
+                this._resizeReady = false;
+                this.onResizeStart.emit(item);
+                item.onResizeStartEvent();
+            }
         }
     };
     NgGrid.prototype._dragStart = function (e) {
